@@ -90,7 +90,7 @@ namespace Курсовик_1
                     }
                 }
 
-                if (IsDifferent == true)
+                if (IsDifferent)
                 {
                     GridArrayC.Columns.Clear();
                     GridArrayX.Columns.Clear();
@@ -210,7 +210,7 @@ namespace Курсовик_1
 
         private void BttnCalcArrayX_Click(object sender, RoutedEventArgs e)
         {
-            Data.X = BL.CalcArrayX(Data.C, Data.A, Data.M, Data.B);
+            Data.X = MathFunctions.CalcArrayX(Data.C, Data.A, Data.M, Data.B);
 
             if (Data.X.Length == Data.C.Length)
             {
@@ -240,6 +240,7 @@ namespace Курсовик_1
                 if (!oldArray.SequenceEqual(Data.Y))
                 {
                     GridSortedArrayY.Columns.Clear();
+
                     Data.Y_Sorted = null;
 
                     BttnSortArrayY.IsEnabled = true;
@@ -256,7 +257,7 @@ namespace Курсовик_1
 
         private void BttnSortArrayY_Click(object sender, RoutedEventArgs e)
         {
-            Data.Y_Sorted = BL.SortingArrayY(Data.Y);
+            Data.Y_Sorted = MathFunctions.SortingArrayY(Data.Y);
 
             if (Data.Y_Sorted != null)
             {
@@ -266,7 +267,7 @@ namespace Курсовик_1
             NewData = true;
             IsSelectedControlData = false;
 
-            FileOper.WriteToFileNewData();
+            FileOperations.WriteToFileNewData();
         }
 
         private void BttnClearForm_Click(object sender, RoutedEventArgs e)
@@ -332,7 +333,7 @@ namespace Курсовик_1
             {
                 if (Data.ListNewData.Count == 0)
                 {
-                    await FileOper.ReadToFileAsync();
+                    await FileOperations.ReadToFileAsync();
 
                     for (int i = 0; i < Data.ListNewData.Count; i++)
                     {
@@ -348,7 +349,7 @@ namespace Курсовик_1
             {
                 if (Data.ListControlData.Count == 0)
                 {
-                    await FileOper.ReadToFileAsyncControlData();
+                    await FileOperations.ReadToFileAsyncControlData();
 
                     for (int i = 0; i < Data.ListControlData.Count; i++)
                     {
@@ -436,13 +437,13 @@ namespace Курсовик_1
             Data.C = new double[] { 4, 7, 3 };
             GridArrayC.ItemsSource = FormirationDataGrid.ToDataTable(Data.C).DefaultView;
 
-            Data.X = BL.CalcArrayX(Data.C, Data.A, Data.M, Data.B);
+            Data.X = MathFunctions.CalcArrayX(Data.C, Data.A, Data.M, Data.B);
             GridArrayX.ItemsSource = FormirationDataGrid.ToDataTable(Data.X).DefaultView;
 
-            Data.Y = BL.CalcArrayY(Data.X, Data.h);
+            Data.Y = MathFunctions.CalcArrayY(Data.X, Data.h);
             GridArrayY.ItemsSource = FormirationDataGrid.ToDataTable(Data.Y).DefaultView;
 
-            Data.Y_Sorted = BL.SortingArrayY(Data.Y);
+            Data.Y_Sorted = MathFunctions.SortingArrayY(Data.Y);
             GridSortedArrayY.ItemsSource = FormirationDataGrid.ToDataTable(Data.Y_Sorted).DefaultView;
 
             IsSelectedControlData = true;
@@ -456,10 +457,9 @@ namespace Курсовик_1
             {
                 if (Data.Y != null || Data.Y_Sorted != null)
                 {
-                    Mylineseries.Title = "Y";
-                    Mylineseries.LineSmoothness = 0;
-                    Mylineseries.PointGeometry = null; //Точки на графике
-                    LabelsX = new List<string> { };
+                    LabelsX = new List<string>();
+                    SeriesCollection = new SeriesCollection { };
+
                     if (LabelsX.Count == 0)
                     {
                         for (int i = 0; i < Data.Y.Length; i++)
@@ -467,15 +467,21 @@ namespace Курсовик_1
                             LabelsX.Add(Convert.ToString(i));
                         }
                     }
-                    Mylineseries.Values = new ChartValues<double>(Data.Y);
-                    SeriesCollection = new SeriesCollection { };
+
+                    Mylineseries.Title = "Y";
+                    Mylineseries.LineSmoothness = 0;
+                    Mylineseries.PointGeometry = null;
+                    Mylineseries.Values = new ChartValues<double>(Data.Y);         
+                    
                     SeriesCollection.Add(Mylineseries);
 
                     Mylineseries2.Title = "Y_Sort";
                     Mylineseries2.LineSmoothness = 0;
-                    Mylineseries2.PointGeometry = null; //Точки на графике
+                    Mylineseries2.PointGeometry = null;
                     Mylineseries2.Values = new ChartValues<double>(Data.Y_Sorted);
+
                     SeriesCollection.Add(Mylineseries2);
+
                     DataContext = this;
                 }
                 else

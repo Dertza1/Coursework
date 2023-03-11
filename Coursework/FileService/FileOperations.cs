@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OperationWithFile
 {
-    public class FileOper
+    public class FileOperations
     {
         public static string path = @"RecordingFile.txt";
         public static string pathControlData = @"ControlDan.txt";

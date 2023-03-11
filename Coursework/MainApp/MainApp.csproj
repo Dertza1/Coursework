@@ -141,9 +141,9 @@
       <Project>{12b93e7a-6de1-4f06-99f2-20677b69fbf0}</Project>
       <Name>BusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\File\OperationWithFile.csproj">
+    <ProjectReference Include="..\File\FileService.csproj">
       <Project>{1b794da6-4c29-4562-a0bc-f84ffff69e1b}</Project>
-      <Name>OperationWithFile</Name>
+      <Name>FileService</Name>
     </ProjectReference>
     <ProjectReference Include="..\Module\Module.csproj">
       <Project>{bc4b038b-a555-48bc-a2f3-ca9372d8b1a6}</Project>

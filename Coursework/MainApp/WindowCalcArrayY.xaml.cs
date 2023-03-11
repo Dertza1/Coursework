@@ -26,7 +26,7 @@ namespace Курсовик_1
             {
                 Data.h = double.Parse(step);
 
-                Data.Y = BL.CalcArrayY(Data.X, Data.h);
+                Data.Y = MathFunctions.CalcArrayY(Data.X, Data.h);
 
                 if (Data.Y != null)
                 {

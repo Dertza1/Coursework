@@ -2,7 +2,7 @@
 
 namespace BusinessLogic
 {
-    public class BL
+    public class MathFunctions
     {
         public static double SumMainDiagonal(double[,] A)
         {
